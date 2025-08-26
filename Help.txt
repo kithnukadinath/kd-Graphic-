@@ -1,0 +1,14 @@
+📁JGS Co Portfolio Project
+	📑 index.html
+	📄 style.css
+	📜 script.js
+	logo.png
+	profile.png and oder image file (PNG,JPG,GIF)
+.......................
+Run -> index.html
+
+
+Code By
+JGS LANKA Co.
+janithgraphicstuudio.e@gmail.com
++94702001859
