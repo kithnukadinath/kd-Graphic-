@@ -318,6 +318,7 @@ nav a:hover::after {
         .gallery-item {
             position: relative;
             flex: 0 0 auto;
+
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -335,10 +336,10 @@ nav a:hover::after {
         }
         
         .gallery-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.5s ease;
         }
         
         .gallery-item:hover .gallery-img {
@@ -378,7 +379,7 @@ nav a:hover::after {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(5, 5, 5, 0.2);
             backdrop-filter: blur(10px);
             border: none;
             color: white;
@@ -444,38 +445,97 @@ nav a:hover::after {
             line-height: 1.6;
             margin-bottom: 10px;
         }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .gallery-item {
-                width: 250px;
-                height: 350px;
-            }
-            
-            .nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .gallery-item {
-                width: 220px;
-                height: 320px;
-            }
-        }
+
+@media (max-width: 768px) {
+    /* --- ගැලරිය සඳහා නිවැරදි කරන ලද Mobile CSS --- */
+    .gallery-container {
+        padding: 0; /* අනවශ්‍ය padding ඉවත් කිරීම */
+    }
+
+    .gallery-track {
+        scroll-snap-type: x mandatory;
+        padding: 0; /* Padding ඉවත් කිරීම */
+        gap: 0;     /* අයිතම අතර Gap ඉවත් කිරීම */
+    }
+
+    .gallery-item {
+        width: 100%; /* තිරයේ සම්පූර්ණ පළල ලබා දීම */
+        height: auto;
+        flex-shrink: 0;
+        scroll-snap-align: start; /* වම් පසට snap කිරීම */
+        scroll-snap-stop: always;
+    }
+
+    /* --- අනෙකුත් Mobile Styles (වෙනස් නොකරන්න) --- */
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .sticky-nav {
+        justify-content: space-between;
+        padding: 1rem 80px 1rem 2rem; 
+    }
+
+    .hamburger-menu {
+        display: block;
+    }
+
+    nav ul {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--card-bg);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        transition: right 0.4s ease-in-out;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+        z-index: 1000;
+    }
+    
+    nav ul.nav-active {
+        right: 0;
+    }
+
+    nav a {
+        font-size: 1.3rem;
+    }
+    
+    .sticky-nav.visible {
+        background-color: transparent;
+        backdrop-filter: none;
+        box-shadow: none;
+    }
+
+    .nav-logo {
+        position: static;
+        height: 35px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .about-container {
+        text-align: center;
+    }
+
+    .info-section {
+        text-align: center;
+    }
+
+    .info-title::after {
+        left: 25%;
+    }
+}
+
 
 /* Sections */
 section {
@@ -908,22 +968,6 @@ section {
         font-size: 1.5rem;
     }
 
-    nav ul {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: center;
-    }
-
-    .nav-logo {
-        position: static;
-        margin-bottom: 0.5rem;
-    }
-
-    .sticky-nav {
-        flex-direction: column;
-        padding: 0.5rem;
-    }
-
     .section-title {
         font-size: 1.8rem;
     }
@@ -932,4 +976,59 @@ section {
         width: 150px;
         height: 150px;
     }
+}
+
+/* Hamburger Menu Styles */
+.hamburger-menu {
+    display: none; /* Desktop තිරවලදී සඟවන්න */
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1005; /* අනෙකුත් දේට වඩා ඉහළින් තැබීමට */
+    color: var(--text-color);
+}
+
+/* --- Mobile View (< 768px) --- */
+@media (max-width: 768px) {
+    .sticky-nav {
+        justify-content: space-between; /* ලාංඡනය සහ අයිකනය දෙපසට කිරීමට */
+         padding: 1rem 80px 1rem 2rem; 
+    }
+
+    .hamburger-menu {
+        display: block; /* Mobile තිරවලදී පෙන්වන්න */
+    }
+
+    nav ul {
+        /* Mobile මෙනුව සඳහා මූලික style */
+        position: fixed;
+        top: 0;
+        right: -100%; /* ආරම්භයේදී තිරයෙන් පිටත තැබීමට */
+        width: 70%;
+        height: 100vh;
+        background-color: var(--card-bg);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem; /* ලින්ක් අතර ඉඩ */
+        transition: right 0.4s ease-in-out;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+        z-index: 1000;
+    }
+    
+    nav ul.nav-active {
+        right: 0; /* 'nav-active' class එක ඇති විට තිරය තුළට ගෙන ඒම */
+    }
+
+    nav a {
+        font-size: 1.3rem; /* Mobile මෙනුවේ අකුරු විශාල කිරීම */
+    }
+    .sticky-nav.visible {
+    background-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+}
+.nav-logo {
+    position: static; /* ලාංඡනය නැවත නිසි පිළිවෙලට ගෙන ඒමට */
+    height: 35px;     /* මොබයිල් තිරයට ගැලපෙන ලෙස උස සැකසීම */
+}
 }
