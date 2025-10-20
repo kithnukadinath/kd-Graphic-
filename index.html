@@ -62,7 +62,7 @@ body.dark-mode {
 }
 
 section {
-    padding: 80px 0;
+    padding: 40px 0;
 }
 
 .section-title {
@@ -243,7 +243,7 @@ header .subtitle {
 .gallery-title {
     text-align: center;
     font-size: 1.8rem;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
     font-weight: 600;
 }
 .gallery-container {
@@ -610,12 +610,14 @@ footer {
             </div>
         </header>
 
-        <section id="portfolio" class="reveal">
+      <!-- Social Media Post Designs Section (Existing) -->
+<section id="portfolio" class="reveal">
             <div class="container">
                 <h2 class="section-title">OUR PORTFOLIO</h2>
                 <p class="section-subtitle">KD Graphics brings creativity to life with modern, eye-catching designs. From logos to full brand identities, we craft visuals that make your ideas stand out.</p>
                 
-                <h3 class="gallery-title">POST DESIGNS</h3>
+                <h3 class="gallery-title">SOCIAL MEDIA POST DESIGNS</h3>
+                <p class="section-subtitle">I design eye-catching social media posts that connect, engage, and inspire audiences.</p>
                 <div class="gallery-container">
                     <div class="gallery-track">
                         <div class="gallery-item"><img src="s1.jpg" alt="Portfolio Image 1"></div>
@@ -627,7 +629,7 @@ footer {
                         <div class="gallery-item"><img src="s7.jpg" alt="Portfolio Image 7"></div>
                         <div class="gallery-item"><img src="s8.jpg" alt="Portfolio Image 8"></div>
                         <div class="gallery-item"><img src="s9.jpg" alt="Portfolio Image 9"></div>
-                        <div class="gallery-item"><img src="s11.jpg" alt="Portfolio Image 11"></div>
+                        <div class="gallery-item"><img src="S11.jpg" alt="Portfolio Image 11"></div>
                         <div class="gallery-item"><img src="s12.jpg" alt="Portfolio Image 12"></div>
                         <div class="gallery-item"><img src="s13.jpg" alt="Portfolio Image 13"></div>
                     </div>
@@ -637,13 +639,70 @@ footer {
                 <div class="gallery-dots"></div>
             </div>
         </section>
+      <!-- Logo Designs Section (Updated ID) -->
+<section id="logo-design" class="reveal"> <!-- ID CHANGED -->
+    <div class="container">
+        <h3 class="gallery-title">LOGO DESIGNS</h3>
+        <p class="section-subtitle">I create unique, memorable logos that capture the essence of each brand — simple, creative, and built to stand out.</p>
+        <div class="gallery-container" id="logoGalleryContainer"> <!-- ADDED ID -->
+            <div class="gallery-track" id="logoGalleryTrack"> <!-- ADDED ID -->
+                <div class="gallery-item"><img src="Lo1.png" alt="Logo Design 1"></div>
+                <div class="gallery-item"><img src="Lo2.png" alt="Logo Design 2"></div>
+                <div class="gallery-item"><img src="Lo3.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo4.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo5.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo6.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo7.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo8.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo9.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo10.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo11.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo12.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo13.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo14.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo1.png" alt="Logo Design 3"></div>
 
-        
-        
+            </div>
+            <button class="nav-btn prev" aria-label="Previous slide">&#8249;</button>
+            <button class="nav-btn next" aria-label="Next slide">&#8250;</button>
+        </div>
+        <div class="gallery-dots" id="logoGalleryDots"></div> <!-- ADDED ID -->
+    </div>
+</section>
+
+    
+
         
    <!-- Pricing Section -->
      <section id="pricing" class="reveal"> <div class="container"> <h2 class="section-title">Our Pricing</h2>
             <div class="pricing-container">
+            <!-- Branding Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Branding</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Basic</span>
+                            <span>Rs.3000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Standard</span>
+                            <span>Rs.8000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Premium</span>
+                            <span>Rs.15000</span>
+                        </div>
+                        <div class="price-option">
+                        <h1>Contact for more Informations</h1>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Logo Design Pricing -->
             <div class="pricing-item">
                 <div class="pricing-header">
@@ -1235,6 +1294,46 @@ footer {
             updateGallery();
         });
     }
+
+    // --- NEW: Logo Designs Gallery Slider ---
+const logoTrack = document.querySelector('#logoGalleryTrack');
+if (logoTrack) {
+    const logoItems = Array.from(logoTrack.children);
+    const logoNextButton = document.querySelector('#logo-design .next');
+    const logoPrevButton = document.querySelector('#logo-design .prev');
+    const logoDotsNav = document.querySelector('#logoGalleryDots');
+
+    // Create dots for logo gallery
+    logoItems.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+            logoCurrentIndex = index;
+            updateLogoGallery();
+        });
+        logoDotsNav.appendChild(dot);
+    });
+    
+    const logoDots = Array.from(logoDotsNav.children);
+    let logoCurrentIndex = 0;
+
+    const updateLogoGallery = () => {
+        logoTrack.style.transform = 'translateX(-' + logoCurrentIndex * 100 + '%)';
+        logoDots.forEach(dot => dot.classList.remove('active'));
+        logoDots[logoCurrentIndex].classList.add('active');
+    };
+
+    logoNextButton.addEventListener('click', () => {
+        logoCurrentIndex = (logoCurrentIndex + 1) % logoItems.length;
+        updateLogoGallery();
+    });
+
+    logoPrevButton.addEventListener('click', () => {
+        logoCurrentIndex = (logoCurrentIndex - 1 + logoItems.length) % logoItems.length;
+        updateLogoGallery();
+    });
+}
 
 
     // --- Pricing Accordion ---
