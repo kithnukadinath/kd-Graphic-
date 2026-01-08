@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="funtion.png">
+    <title>KD Graphics | " Creativity In Every Pixel 🌀🗯️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* -CSS Variables */
+:root {
+    --primary-color: #007BFF;
+    --primary-hover: #0056b3;
+    --background-light: #f4f7fc;
+    --background-dark: #121212;
+    --surface-light: #ffffff;
+    --surface-dark: #1e1e1e;
+    --text-light: #333333;
+    --text-dark: #e0e0e0;
+    --border-light: #e0e0e0;
+    --border-dark: #333333;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* --- Base & Reset Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-light);
+    transition: var(--transition);
+    line-height: 1.6;
+}
+
+/* --- Dark Mode --- */
+body.dark-mode {
+    --background-light: var(--background-dark);
+    --surface-light: var(--surface-dark);
+    --text-light: var(--text-dark);
+    --border-light: var(--border-dark);
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Reusable Components --- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 40px 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.section-subtitle {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 50px;
+    color: #666;
+}
+
+body.dark-mode .section-subtitle {
+    color: #aaa;
+}
+
+
+/* --- Animated Background --- */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.bg-animation div {
+    position: absolute;
+    bottom: -150px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 123, 255, 0.15);
+    border-radius: 50%;
+    animation: rise 15s infinite ease-in;
+}
+body.dark-mode .bg-animation div {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+@keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+}
+
+.bg-animation div:nth-child(1) { left: 10%; animation-duration: 12s; }
+.bg-animation div:nth-child(2) { left: 25%; animation-duration: 18s; animation-delay: 2s; }
+.bg-animation div:nth-child(3) { left: 45%; animation-duration: 14s; animation-delay: 5s; }
+.bg-animation div:nth-child(4) { left: 70%; animation-duration: 20s; }
+.bg-animation div:nth-child(5) { left: 85%; animation-duration: 16s; animation-delay: 3s; }
+
+/* --- Theme Toggle --- */
+.theme-toggle {
+    position: fixed;
+    top: 61px;
+    right: 20px;
+    z-index: 1001;
+    background: var(--surface-light);
+    border: 1px solid var(--border-light);
+    color: var(--text-light);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+.theme-toggle:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+/* --- Navigation --- */
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    transition: var(--transition);
+    /* position: relative; යන පේළිය මෙතනින් ඉවත් කර ඇත */
+}
+.sticky-nav.scrolled {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+body.dark-mode .sticky-nav.scrolled {
+    background: rgba(30, 30, 30, 0.8);
+}
+.nav-logo {
+    height: 40px;
+}
+.sticky-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    /* --- අලුතින් එක් කළ යුතු කොටස --- */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* ----------------------------- */
+}
+.sticky-nav a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 600;
+    transition: color 0.3s;
+}
+.sticky-nav a:hover {
+    color: var(--primary-color);
+}
+.hamburger-menu {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* --- Header --- */
+header#home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--surface-light);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+.welcome-text {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+header .subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 40px;
+}
+.scroll-down {
+    position: absolute;
+    bottom: 30px;
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+}
+.scroll-down a {
+    color: var(--text-light);
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-15px); }
+    60% { transform: translateY(-8px); }
+}
+
+/* --- Portfolio Gallery --- */
+.gallery-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.gallery-container {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+.gallery-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.gallery-item {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+.gallery-item img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+}
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.nav-btn:hover { background-color: rgba(0, 0, 0, 0.8); }
+.prev { left: 10px; }
+.next { right: 10px; }
+.gallery-dots {
+    text-align: center;
+    margin-top: 20px;
+}
+.dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.dot.active { background-color: var(--primary-color); }
+
+/* Pricing Section */
+.pricing-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pricing-item {
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(148, 114, 114, 0.1);
+}
+
+.pricing-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.pricing-header:hover {
+    background-color: var(--accent-color);
+}
+
+.pricing-header i {
+    transition: var(--transition);
+}
+
+.pricing-header.active i {
+    transform: rotate(180deg);
+}
+
+.pricing-content {
+    background-color: var(--card-bg);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.pricing-content-inner {
+    padding: 1.5rem;
+}
+
+.price-option {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.price-option:last-child {
+    border-bottom: none;
+}
+.pricing-price span {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-light);
+}
+/* --- About Section --- */
+.about-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+.about-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--shadow);
+}
+.about-content {
+    flex: 1;
+}
+.about-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+.info-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+    display: inline-block;
+}
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.skill {
+    background: var(--background-light);
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--border-light);
+    font-size: 0.9rem;
+}
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+.social-link {
+    width: 40px;
+    height: 40px;
+    background: var(--surface-light);
+    border: 1px solid var(--border-light);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: var(--transition);
+}
+.social-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-5px);
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--surface-light);
+    border-top: 1px solid var(--border-light);
+    font-size: 0.9rem;
+}
+
+/* --- Floating Buttons --- */
+.whatsapp-btn, .back-to-top {
+    position: fixed;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+.whatsapp-btn {
+    right: 20px;
+    background-color: #25D366;
+    color: white;
+    text-decoration: none;
+}
+.whatsapp-btn:hover {
+    background-color: #128C7E;
+    transform: scale(1.1);
+}
+.back-to-top {
+    right: 90px;
+    background: var(--primary-color);
+    color: white;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    background: var(--primary-hover);
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Tablets and small desktops */
+@media (max-width: 992px) {
+    .section-title { font-size: 2rem; }
+    .welcome-text { font-size: 2.5rem; }
+    
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-img { margin-bottom: 30px; }
+    .info-grid {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+    .social-links { justify-content: center; }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+    .sticky-nav ul {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 70%;
+        height: 100vh;
+        background: var(--surface-light);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+    .sticky-nav ul.nav-active {
+        transform: translateX(0);
+    }
+    .hamburger-menu {
+        display: block;
+        z-index: 1002;
+    }
+    .welcome-text { font-size: 2rem; }
+    header .subtitle { font-size: 1rem; }
+    
+    .pricing-container {
+        grid-template-columns: 1fr;
+    }
+
+    .back-to-top { right: 20px; bottom: 90px; }
+    .whatsapp-btn { right: 20px; bottom: 20px; }
+
+    /* --- NEW: Fix for Pricing Section Overflow on Mobile --- */
+.price-option {
+    flex-direction: column; /* අයිතම එකකට යටින් එකක් සිටින සේ සකස් කරයි */
+    align-items: flex-start; /* ඒවා වම්පසට align කරයි */
+}
+
+.price-option span:first-child {
+    margin-bottom: 4px; /* කොටස් දෙක අතර කුඩා ඉඩක් තබයි */
+    font-weight: 600;
+}
+
+/* දිගු විස්තර සහිත තනි පේළි සඳහා */
+.price-option span:only-child {
+    font-style: italic;
+    opacity: 0.9;
+}
+
+}
+/* --- NEW: Scroll Animation Styles --- */
+.reveal {
+    position: relative;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+/* --- FIX: Prevent Text Overflow in Pricing Details --- */
+.price-option span {
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+    </style>
+</head>
+<body>
+
+    <div class="bg-animation">
+        <div></div> <div></div> <div></div> <div></div> <div></div>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <nav class="sticky-nav" id="stickyNav">
+        <a href="#home"><img src="logo.png" alt="KD Graphics Logo" class="nav-logo"></a>
+        <ul id="navLinks">
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#about">About Me</a></li>
+        </ul>
+        <div class="hamburger-menu" id="hamburgerMenu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <main>
+        <header id="home">
+            <img src="Profile.png" alt="Janith Profile" class="profile-img">
+            <h1 class="welcome-text">Welcome to KD Graphics</h1>
+            <p class="subtitle">
+                I’m a creative designer specializing in post design, logo design, and branding. I focus on delivering unique and professional visuals that help brands stand out.
+            </p>
+            <div class="scroll-down" id="scrollDown">
+                <a href="#portfolio" aria-label="Scroll to portfolio"><i class="fas fa-chevron-down"></i></a>
+            </div>
+        </header>
+
+      <!-- Social Media Post Designs Section (Existing) -->
+<section id="portfolio" class="reveal">
+            <div class="container">
+                <h2 class="section-title">OUR PORTFOLIO</h2>
+                <p class="section-subtitle">KD Graphics brings creativity to life with modern, eye-catching designs. From logos to full brand identities, we craft visuals that make your ideas stand out.</p>
+                
+                <h3 class="gallery-title">SOCIAL MEDIA POST DESIGNS</h3>
+                <p class="section-subtitle">I design eye-catching social media posts that connect, engage, and inspire audiences.</p>
+                <div class="gallery-container">
+                    <div class="gallery-track">
+                        <div class="gallery-item"><img src="s1.jpg" alt="Portfolio Image 1"></div>
+                        <div class="gallery-item"><img src="s2.jpg" alt="Portfolio Image 2"></div>
+                        <div class="gallery-item"><img src="s3.jpg" alt="Portfolio Image 3"></div>
+                        <div class="gallery-item"><img src="s4.jpg" alt="Portfolio Image 4"></div>
+                        <div class="gallery-item"><img src="s5.jpg" alt="Portfolio Image 5"></div>
+                        <div class="gallery-item"><img src="s6.jpg" alt="Portfolio Image 6"></div>
+                        <div class="gallery-item"><img src="s7.jpg" alt="Portfolio Image 7"></div>
+                        <div class="gallery-item"><img src="s8.jpg" alt="Portfolio Image 8"></div>
+                        <div class="gallery-item"><img src="s9.jpg" alt="Portfolio Image 9"></div>
+                        <div class="gallery-item"><img src="s10.jpg" alt="Portfolio Image 10"></div>
+                        <div class="gallery-item"><img src="s11.jpg" alt="Portfolio Image 11"></div>
+                        <div class="gallery-item"><img src="s12.jpg" alt="Portfolio Image 12"></div>
+                        <div class="gallery-item"><img src="s13.jpg" alt="Portfolio Image 13"></div>
+                    </div>
+                    <button class="nav-btn prev" aria-label="Previous slide">&#8249;</button>
+                    <button class="nav-btn next" aria-label="Next slide">&#8250;</button>
+                </div>
+                <div class="gallery-dots"></div>
+            </div>
+        </section>
+      <!-- Logo Designs Section (Updated ID) -->
+<section id="logo-design" class="reveal"> <!-- ID CHANGED -->
+    <div class="container">
+        <h3 class="gallery-title">LOGO DESIGNS</h3>
+        <p class="section-subtitle">I create unique, memorable logos that capture the essence of each brand — simple, creative, and built to stand out.</p>
+        <div class="gallery-container" id="logoGalleryContainer"> <!-- ADDED ID -->
+            <div class="gallery-track" id="logoGalleryTrack"> <!-- ADDED ID -->
+                <div class="gallery-item"><img src="Lo1.png" alt="Logo Design 1"></div>
+                <div class="gallery-item"><img src="Lo2.png" alt="Logo Design 2"></div>
+                <div class="gallery-item"><img src="Lo3.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo4.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo5.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo6.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo7.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo8.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo9.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo10.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo11.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo12.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo13.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo14.png" alt="Logo Design 3"></div>
+                <div class="gallery-item"><img src="Lo15.png" alt="Logo Design 3"></div>
+
+            </div>
+            <button class="nav-btn prev" aria-label="Previous slide">&#8249;</button>
+            <button class="nav-btn next" aria-label="Next slide">&#8250;</button>
+        </div>
+        <div class="gallery-dots" id="logoGalleryDots"></div> <!-- ADDED ID -->
+    </div>
+</section>
+
+        
+   <!-- Pricing Section -->
+     <section id="pricing" class="reveal"> <div class="container"> <h2 class="section-title">Our Pricing</h2>
+            <div class="pricing-container">
+            <!-- Branding Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Branding</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Basic</span>
+                            <span>Rs.10000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Standard</span>
+                            <span>Rs.15000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Premium</span>
+                            <span>Rs.25000</span>
+                        </div>
+                        <div class="price-option">
+                        <h1>Contact for more Informations</h1>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Logo Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Logo Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Basic</span>
+                            <span>Rs.5000 (2 Day delivery) </span>
+                        </div>
+                        <div class="price-option">
+                            <span>Standard</span>
+                            <span>Rs.15000 (3 Day delivery)</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Premium</span>
+                            <span>Rs.25000 (4 Day delivery)</span>
+                        </div>
+                        <div class="price-option">
+                            <span>with PNG, JPEG, Vector File, PDF File,Source File, (5 Revisions) </span>
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media Post Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Social Media Post Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price</span>
+                            <span>Rs.1000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>High quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>1-2 Day delivery</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>with  PDF, JPEG file</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Post Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Event Post Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price</span>
+                            <span>Rs.2000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>High quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>2 Revisions</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>1-2 Day delivery</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>with  PDF, JPEG file</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Invitation Card Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Invitation Card Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price</span>
+                            <span>Rs.1800</span>
+                        </div>
+                        <div class="price-option">
+                            <span>High quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>2 Revisions</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>1-2 Day delivery</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>with  PDF, JPEG file</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaflet Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Leaflet Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>One Side</span>
+                            <span>Rs.1000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Two Side</span>
+                            <span>Rs.1500</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Four Side</span>
+                            <span>Rs.2000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>Six Side</span>
+                            <span>Rs.3000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>(Started Prices)</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>High quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>2 Revisions</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>1-3 Day delivery</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>with  PDF, JPEG file</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Banner Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price </span>
+                            <span>Rs 1600</span>
+                        </div>
+                        <div class="price-option">
+                            <span>High Quality</span>
+                            <span></span>
+                        </div>
+                         <div class="price-option">
+                            <span>Print Ready </span>
+                            <span></span>
+                        </div>
+                         <div class="price-option">
+                            <span>1-2 Day delivery</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>with JPEG, PDF & PSD file</span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- YouTube Thumbnail Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>YouTube Thumbnail Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price </span>
+                            <span>Rs 1200</span>
+                        </div>
+                        <div class="price-option">
+                            <span>High Quality</span>
+                            <span>(300ppi)</span>
+                        </div>
+                         <div class="price-option">
+                            <span>1-2 Day delivery</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>with JPEG, PDF</span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Social Media Cover Photo Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Social Media Cover Photo</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price</span>
+                            <span>Rs.1000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>High-quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>2 Revisions</span>
+                            <span></span>
+                        </div>
+                         <div class="price-option">
+                            <span>1-2 Day delivery</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span> with JPEG & PDF File</span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book Cover Page Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Book Cover Page Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>1 side</span>
+                            <span>Rs.2000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>2 side</span>
+                            <span>Rs.3000</span>
+                        </div>
+                        <div class="price-option">
+                            <span>High Quality</span>
+                            <span></span>
+                        </div>
+                         <div class="price-option">
+                            <span>2 Revisions</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>with PDF & PSD file</span>
+                            <span><span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Package & Label Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Package & Label Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price </span>
+                            <span>Rs.3500 </span>
+                        </div>
+                        <div class="price-option">
+                            <span>High Quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>3 Revisions</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>With JPEG, PDF File</span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cover Page Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Cover Page Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price </span>
+                            <span>Rs.1200 </span>
+                        </div>
+                        <div class="price-option">
+                            <span>High Quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>2 Revisions</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>With JPEG, PDF File</span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Card Design Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Business Card Design</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price </span>
+                            <span>Rs.1500 </span>
+                        </div>
+                        <div class="price-option">
+                            <span>High Quality</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>2 Revisions</span>
+                            <span></span>
+                        </div>
+                        <div class="price-option">
+                            <span>With JPEG, Print Ready File</span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- T shert desing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>T shert desing</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price</span>
+                            <span>Rs.4000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photo Editing Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Photo Editing & Retouching</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price</span>
+                            <span>Rs.2000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ai Video Creating Pricing -->
+            <div class="pricing-item">
+                <div class="pricing-header">
+                    <span>Ai Video Creating</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-content-inner">
+                        <div class="price-option">
+                            <span>Standard Price</span>
+                            <span>Rs.3000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            </section>
+
+        <section id="about" class="reveal">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-container">
+                    <img src="my photo.jpg" alt="Kithnuka Dinath" class="about-img">
+                    <div class="about-content">
+                        <h3 class="about-title">Kithnuka Dinath</h3>
+                        <div class="info-grid">
+                            <div class="info-section">
+                                <h4 class="info-title">PERSONAL INFORMATION</h4>
+                                <div class="info-item"><strong>Name:</strong> Kithnuka Dinath</div>
+                                <div class="info-item"><strong>Country:</strong> Sri Lanka</div>
+                                <div class="info-item"><strong>Language:</strong> Sinhala / English</div>
+                                <div class="info-item"><strong>Job:</strong> Freelancer</div>
+                            </div>
+                            <div class="info-section">
+                                <h4 class="info-title">PRO SKILLS</h4>
+                                <div class="skills-container">
+                                    <div class="skill">Adobe Photoshop</div>
+                                    <div class="skill">Adobe Illustrator</div>
+                                    <div class="skill">CorelDraw</div>
+                                    <div class="skill">Adobe XD</div>
+                                    <div class="skill">Video Editing</div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="social-links">
+                            <a href="https://www.facebook.com/share/15q9ZGRofX/" target="_blank" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-link" aria-label="Website"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Design by : xkitha | KD GRAPHIC | © 2025 | Sri Lanka.</p>
+    </footer>
+
+    <a href="https://wa.me/94767140472" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+   <script>
+     window.addEventListener('load', () => {
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 0);
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Theme Toggle (Dark/Light Mode) ---
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    const themeIcon = themeToggle.querySelector('i');
+
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            body.classList.remove('dark-mode');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    };
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const isDarkMode = body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        applyTheme(isDarkMode ? 'dark' : 'light');
+    });
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+
+
+    // --- Sticky Navigation & Back to Top Button ---
+    const stickyNav = document.getElementById('stickyNav');
+    const backToTopButton = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            stickyNav.classList.add('scrolled');
+        } else {
+            stickyNav.classList.remove('scrolled');
+        }
+        
+        if (window.scrollY > 300) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    });
+    
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+
+    // --- Hamburger Menu for Mobile ---
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const navLinks = document.getElementById('navLinks');
+    const navLinkItems = navLinks.querySelectorAll('a');
+
+    hamburgerMenu.addEventListener('click', () => {
+        navLinks.classList.toggle('nav-active');
+    });
+
+    navLinkItems.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('nav-active');
+        });
+    });
+
+
+    // --- Portfolio Gallery Slider ---
+    const track = document.querySelector('.gallery-track');
+    if (track) {
+        const items = Array.from(track.children);
+        const nextButton = document.querySelector('.next');
+        const prevButton = document.querySelector('.prev');
+        const dotsNav = document.querySelector('.gallery-dots');
+
+        // Create dots
+        items.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateGallery();
+            });
+            dotsNav.appendChild(dot);
+        });
+        
+        const dots = Array.from(dotsNav.children);
+        let currentIndex = 0;
+
+        const updateGallery = () => {
+            track.style.transform = 'translateX(-' + currentIndex * 100 + '%)';
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+        };
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % items.length;
+            updateGallery();
+        });
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            updateGallery();
+        });
+    }
+
+    // --- NEW: Logo Designs Gallery Slider ---
+const logoTrack = document.querySelector('#logoGalleryTrack');
+if (logoTrack) {
+    const logoItems = Array.from(logoTrack.children);
+    const logoNextButton = document.querySelector('#logo-design .next');
+    const logoPrevButton = document.querySelector('#logo-design .prev');
+    const logoDotsNav = document.querySelector('#logoGalleryDots');
+
+    // Create dots for logo gallery
+    logoItems.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+            logoCurrentIndex = index;
+            updateLogoGallery();
+        });
+        logoDotsNav.appendChild(dot);
+    });
+    
+    const logoDots = Array.from(logoDotsNav.children);
+    let logoCurrentIndex = 0;
+
+    const updateLogoGallery = () => {
+        logoTrack.style.transform = 'translateX(-' + logoCurrentIndex * 100 + '%)';
+        logoDots.forEach(dot => dot.classList.remove('active'));
+        logoDots[logoCurrentIndex].classList.add('active');
+    };
+
+    logoNextButton.addEventListener('click', () => {
+        logoCurrentIndex = (logoCurrentIndex + 1) % logoItems.length;
+        updateLogoGallery();
+    });
+
+    logoPrevButton.addEventListener('click', () => {
+        logoCurrentIndex = (logoCurrentIndex - 1 + logoItems.length) % logoItems.length;
+        updateLogoGallery();
+    });
+}
+
+
+    // --- Pricing Accordion ---
+    const pricingItems = document.querySelectorAll('.pricing-item');
+    pricingItems.forEach(item => {
+        const header = item.querySelector('.pricing-header');
+        const content = item.querySelector('.pricing-content');
+
+        header.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+
+            // Close all other items
+            pricingItems.forEach(i => {
+               i.classList.remove('active');
+                i.querySelector('.pricing-content').style.maxHeight = null;
+            });
+            
+            // Open the clicked one if it wasn't active
+            if (!isActive) {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+    });
+
+    // --- NEW: Scroll Reveal Animation ---
+const revealElements = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        } else {
+            // Uncomment the line below if you want the animation to repeat every time you scroll up and down
+            // entry.target.classList.remove('active');
+        }
+    });
+}, {
+    threshold: 0.1 // 10% of the element is visible
+});
+
+revealElements.forEach(elem => {
+    revealObserver.observe(elem);
+});
+
+});
+   </script>
+</body>
+</html>
